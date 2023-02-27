@@ -107,7 +107,7 @@ class PostViewsTest(TestCase):
                 response = self.authorized_client.get(value)
                 form_field = response.context["page_obj"]
                 self.assertIn(expected, form_field)
-    
+
     def test_not_on_wrong_pages(self):
         form_fields = {
             reverse(
