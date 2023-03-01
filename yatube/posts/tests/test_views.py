@@ -137,6 +137,7 @@ class PaginatorViewsTest(TestCase):
             slug='slug',
             description='Тестовое описание',
         )
+        cls.number_of_posts = 13
         cls.posts_on_first_page = 10
         cls.posts_on_second_page = 3
         cls.url_pages = [
@@ -144,12 +145,10 @@ class PaginatorViewsTest(TestCase):
             reverse('posts:group_list', kwargs={'slug': cls.group.slug}),
             reverse('posts:profile', kwargs={'username': cls.user.username}),
         ]
-        for i in range(13):
-            Post.objects.create(
-                author=cls.user,
-                group=cls.group,
-                text=f'Пост #{i}',
-            )
+        cls.post = []
+        for _ in range(0, cls.number_of_posts):
+            cls.post.append(Post(author=cls.user, group=cls.group))
+        Post.objects.bulk_create(cls.post)
 
     def setUp(self):
         self.authorized_client = Client()
