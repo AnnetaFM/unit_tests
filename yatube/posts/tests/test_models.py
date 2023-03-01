@@ -1,10 +1,6 @@
 from django.test import TestCase
 
-from django.contrib.auth import get_user_model
-
-from ..models import Group, Post
-
-User = get_user_model()
+from ..models import Group, Post, User
 
 
 class PostModelTest(TestCase):
@@ -19,13 +15,15 @@ class PostModelTest(TestCase):
         )
         cls.post = Post.objects.create(
             author=cls.user,
-            text='Тестовый пост',
+            text='Тестовый пост, который длиннее 15 символов',
         )
 
     def test_post_str(self):
+        """Проверяем корректность __str__ в модели Post."""
         self.assertEqual(self.post.text[:15], str(self.post))
 
     def test_post_verbose_name(self):
+        """Проверяем корректность verbose_name в модели Post."""
         field_verboses = {
             'text': 'Текст поста',
             'pub_date': 'Дата публикации',
@@ -38,6 +36,7 @@ class PostModelTest(TestCase):
                     Post._meta.get_field(field).verbose_name, expected_value)
 
     def test_post_help_text(self):
+        """Проверяем корректность help_text в модели Post."""
         post = PostModelTest.post
         field_help_texts = {
             'text': 'Введите текст поста',
@@ -60,9 +59,11 @@ class GroupModelTest(TestCase):
         )
 
     def test_group_str(self):
+        """Проверяем корректность __str__ в модели Group."""
         self.assertEqual(self.group.title, str(self.group))
 
     def test_group_verbose_name(self):
+        """Проверяем корректность verbose_name в модели Group."""
         group = GroupModelTest.group
         field_verboses = {
             'title': 'Название группы',
@@ -75,6 +76,7 @@ class GroupModelTest(TestCase):
                     group._meta.get_field(field).verbose_name, expected_value)
 
     def test_group_help_text(self):
+        """Проверяем корректность help_text в модели Group."""
         group = GroupModelTest.group
         field_help_texts = {
             'title': 'Введите название группы',

@@ -1,10 +1,7 @@
-from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from ..models import Group, Post
-
-User = get_user_model()
+from ..models import Group, Post, User
 
 
 class PostFormTests(TestCase):
@@ -30,6 +27,7 @@ class PostFormTests(TestCase):
         self.authorized_user.force_login(self.author_of_post)
 
     def test_user_create_post(self):
+        """Валидная форма создает запись."""
         posts_count = Post.objects.count()
         form_data = {
             'text': 'Текст поста',
@@ -52,6 +50,7 @@ class PostFormTests(TestCase):
         )
 
     def test_user_edit_post(self):
+        """Валидная форма редактирует запись."""
         post_count = Post.objects.count()
         form_data = {
             'group': self.group.id,
